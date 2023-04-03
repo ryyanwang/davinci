@@ -4,7 +4,6 @@ const serviceURL = "http://localhost:8123/api/services/";
 require("dotenv").config();
 
 const TOKEN = process.env.HA_API_KEY;
-console.log(TOKEN);
 // CONST URL = TODO
 const headers = {
   Authorization: `Bearer ${TOKEN}`,
@@ -63,3 +62,26 @@ app.get("/testCommandOff", (req, res) => {
   // .then((data) => console.log(data))
   // .catch((error) => console.error(error));
 });
+
+// Query JSON data
+// {
+//   "action": "query",
+//   "location": "living room",
+//   "target": "thermostat",
+//   "property": "temperature",
+//   "comment": "The temperature in the living room is currently 23°C."
+// }
+app.get("/query", (req, res) => {
+  var queryData = req.body;
+  //
+});
+
+// Command JSON data
+// {
+//   "action": "command",
+//   "location": "living room",
+//   "target": "fan",
+//   "value": "off",
+//   "comment": "The fan in the living room has been turned off.",
+//   "scheduleTimeStamp": null
+// }
