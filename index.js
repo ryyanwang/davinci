@@ -68,10 +68,10 @@ app.post("/query", (req, res) => {
   var queryData = req.body;
   var location = queryData.location;
   var property = queryData.property;
-
+  let url = "";
   switch (queryData.target) {
     case "thsensor":
-      var url = homesAssistantAPIURL + `states/sensor.${location}${property}`;
+      url = homesAssistantAPIURL + `states/sensor.${location}${property}`;
       fetch(url, {
         method: "GET",
         headers: headers,
@@ -80,20 +80,31 @@ app.post("/query", (req, res) => {
         .then((data) => {
           var value = data.state;
           if (property == "humidity") {
-            res.send(`The relative humidity in the ${location} is ${value}%`);
+            res.send(
+              `The relative humidity in the ${location} is currently ${value}%`
+            );
           } else {
             res.send(
-              `The temperature in ${location} is ${value} degrees Celsius`
+              `The temperature in the ${location} is currently ${value} degrees Celsius`
             );
           }
         })
         .catch((error) => console.error(error));
 
-    //     `The relative humidity in the ${location} is xxx%`;
-
-    //  `The temperature in ${location} is xxx degrees Celsius`;
-
     case "doorsensor":
+      url = homesAssistantAPIURL + `states/binary_sensor.${location}`;
+
+      fetch(url, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.state);
+          res.send(
+            `The ${location} door is ${data.state == "on" ? "open" : "closed"}.`
+          );
+        });
 
     case "motionsensor":
 
@@ -114,6 +125,7 @@ app.post("/command", (req, res) => {
   var commandData = req.body;
 
   // configure delay
+  let delay = commandData.delay * 1000;
 
   // if routine
 
