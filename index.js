@@ -72,17 +72,20 @@ app.post("/query", (req, res) => {
   switch (queryData.target) {
     case "thsensor":
       var url = homesAssistantAPIURL + `states/sensor.${location}${property}`;
-      console.log(url);
-
       fetch(url, {
         method: "GET",
         headers: headers,
       })
         .then((response) => response.json())
         .then((data) => {
-          var humidity = data.state;
-
-          res.send(`The relative humidity in the ${location} is ${humidity}%`);
+          var value = data.state;
+          if (property == "humidity") {
+            res.send(`The relative humidity in the ${location} is ${value}%`);
+          } else {
+            res.send(
+              `The temperature in ${location} is ${value} degrees Celsius`
+            );
+          }
         })
         .catch((error) => console.error(error));
 
