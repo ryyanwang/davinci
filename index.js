@@ -6,7 +6,10 @@ const homesAssistantAPIURL =
   //process.env.HOME_ASSISTANT_API_URL;
 
   "http://localhost:8123/api/";
-const haToken = process.env.HA_API_KEY;
+const haToken =
+  //process.env.HA_API_KEY;
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmQzOTkzNjY0MTc0NThhOTMzMTgxNWEzZjFiNGUwNCIsImlhdCI6MTY4MDE2Mjc5MSwiZXhwIjoxOTk1NTIyNzkxfQ.8LfUN-Y1sbfMGCPbcyLKDkzlVi_oEblqTnqlUcMAWG0";
+
 // CONST URL = TODO
 
 const headers = {
@@ -74,11 +77,14 @@ app.post("/query", (req, res) => {
       fetch(url, {
         method: "GET",
         headers: headers,
-      }).then((response) => {
-        console.log(response);
-        console.log(response.body);
-        res.send(response.body);
-      });
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          var humidity = data.state;
+
+          res.send(`The relative humidity in the ${location} is ${humidity}%`);
+        })
+        .catch((error) => console.error(error));
 
     //     `The relative humidity in the ${location} is xxx%`;
 
