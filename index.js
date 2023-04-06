@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
-const homesAssistantAPIURL = proccess.env.HA_API_KEY;
+const homesAssistantAPIURL =
+  //process.env.HOME_ASSISTANT_API_URL;
+
+  "http://localhost:8123/api/";
 const haToken = process.env.HA_API_KEY;
 // CONST URL = TODO
 
@@ -47,17 +50,46 @@ app.get("/testCommandOff", (req, res) => {
   // .catch((error) => console.error(error));
 });
 
+app.get("/test", (req, res) => {
+  res.send("hi");
+});
+
 // Query JSON data
 // {
 //   "action": "query",
 //   "location": "living room",
 //   "target": "thermostat",
 //   "property": "temperature",
-//   "comment": "The temperature in the living room is currently 23°C."
 // }
 app.post("/query", (req, res) => {
   var queryData = req.body;
-  //
+  var location = queryData.location;
+  var property = queryData.property;
+
+  switch (queryData.target) {
+    case "thsensor":
+      var url = homesAssistantAPIURL + `states/sensor.${location}${property}`;
+      console.log(url);
+
+      fetch(url, {
+        method: "GET",
+        headers: headers,
+      }).then((response) => {
+        console.log(response);
+        console.log(response.body);
+        res.send(response.body);
+      });
+
+    //     `The relative humidity in the ${location} is xxx%`;
+
+    //  `The temperature in ${location} is xxx degrees Celsius`;
+
+    case "doorsensor":
+
+    case "motionsensor":
+
+    case "watersensor":
+  }
 });
 
 // Command JSON data
@@ -71,6 +103,16 @@ app.post("/query", (req, res) => {
 // }
 app.post("/command", (req, res) => {
   var commandData = req.body;
+
+  // configure delay
+
+  // if routine
+
+  // if blinds
+
+  // if smartplug
+
+  // if smartlight
 
   fetch(url, {
     method: "POST",
