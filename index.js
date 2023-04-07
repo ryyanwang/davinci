@@ -38,10 +38,6 @@ app.get("/testCommandOff", (req, res) => {
   // .catch((error) => console.error(error));
 });
 
-app.get("/test", (req, res) => {
-  res.send("hi");
-});
-
 // Query JSON data
 // {
 //   "action": "query",
@@ -138,40 +134,51 @@ app.post("/query", (req, res) => {
 app.post("/command", (req, res) => {
   var commandData = req.body;
 
+  let url = homesAssistantAPIURL + "services/";
   // configure delay
   let delay = commandData.delay * 1000;
-
+  let location = commandData.location;
   switch (commandData.target) {
+    //if plug
+    case "plug":
+      if (commandData.value == "on") {
+        setTimeout(() => {
+          fetch(url + "switch/turn_on", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}plug`,
+            }),
+          });
+        }, delay);
+      } else {
+        setTimeout(() => {
+          fetch(url + "switch/turn_off", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}plug`,
+            }),
+          });
+        }, delay);
+      }
+
+    // // if light
+    // case "switch":
+
+    // // if blinds
+    // case "blinds":
+
+    // // if routine
+    // case "routine":
+    //   setTimeout(() => {
+    //     fetch(url + `automation/trigger/`, {
+    //       method: "POST",
+    //       headers: headers,
+    //       body: JSON.stringify({
+    //         entity_id: `automation.${target}`,
+    //       }),
+    //     });
+    //   }, delay);
   }
-  // if smartplug
-
-  // if smartlight
-
-  // if routine
-
-  // if blinds
-
-  fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-});
-
-app.get("/testCommandOn", (req, res) => {
-  var commandData = req.body;
-
-  fetch("http://localhost:8123/api/services/switch/turn_on", {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      entity_id: "switch.office",
-    }),
-  });
-  // .then((response) => response.text())
-  // .then((data) => console.log(data))
-  // .catch((error) => console.error(error));
 });
