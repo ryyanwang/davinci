@@ -37,6 +37,10 @@ app.get("/testCommandOff", (req, res) => {
   // .then((data) => console.log(data))
   // .catch((error) => console.error(error));
 });
+app.get("/test", (req, res) => {
+  console.log(`poop`);
+  res.send("poop");
+});
 
 // Query JSON data
 // {
@@ -125,60 +129,83 @@ app.post("/query", (req, res) => {
 // Command JSON data
 // {
 //   "action": "command",
-//   "location": "living room",
-//   "target": "fan",
+//   "location": "office",
+//   "target": "plug",
 //   "value": "off",
-//   "comment": "The fan in the living room has been turned off.",
-//   "scheduleTimeStamp": null
-// }
+//   "comment": "I'm setting up the departure routine for you. All lights will be turned off and the blinds will be closed in 5 minutes.",
+//   "delay": 3}
 app.post("/command", (req, res) => {
-  var commandData = req.body;
+  // var commandData = req.body;
 
-  let url = homesAssistantAPIURL + "services/";
-  // configure delay
-  let delay = commandData.delay * 1000;
-  let location = commandData.location;
-  switch (commandData.target) {
-    //if plug
-    case "plug":
-      if (commandData.value == "on") {
-        setTimeout(() => {
-          fetch(url + "switch/turn_on", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify({
-              entity_id: `switch.${location}plug`,
-            }),
-          });
-        }, delay);
-      } else {
-        setTimeout(() => {
-          fetch(url + "switch/turn_off", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify({
-              entity_id: `switch.${location}plug`,
-            }),
-          });
-        }, delay);
-      }
+  // let url = homesAssistantAPIURL + "services/";
+  // // configure delay
+  // let delay = commandData.delay * 1000;
+  // let location = commandData.location;
+  // switch (commandData.target) {
+  //   //if plug
+  //   case "plug":
+  //     if (commandData.value == "on") {
+  //       setTimeout(() => {
+  //         fetch(url + "switch/turn_on", {
+  //           method: "POST",
+  //           headers: headers,
+  //           body: JSON.stringify({
+  //             entity_id: `switch.${location}plug`,
+  //           }),
+  //         });
+  //       }, delay);
+  //     } else {
+  //       setTimeout(() => {
+  //         fetch(url + "switch/turn_off", {
+  //           method: "POST",
+  //           headers: headers,
+  //           body: JSON.stringify({
+  //             entity_id: `switch.${location}plug`,
+  //           }),
+  //         });
+  //       }, delay);
+  //     }
 
-    // // if light
-    // case "switch":
+  //     // // if light
+  //     // case "switch":
 
-    // // if blinds
-    // case "blinds":
+  //     if (commandData.value == "on") {
+  //       setTimeout(() => {
+  //         fetch(url + "switch/turn_on", {
+  //           method: "POST",
+  //           headers: headers,
+  //           body: JSON.stringify({
+  //             entity_id: `switch.${location}lightswitch`,
+  //           }),
+  //         });
+  //       }, delay);
+  //     } else {
+  //       setTimeout(() => {
+  //         fetch(url + "switch/turn_off", {
+  //           method: "POST",
+  //           headers: headers,
+  //           body: JSON.stringify({
+  //             entity_id: `switch.${location}lightswitch`,
+  //           }),
+  //         });
+  //       }, delay);
+  //     }
 
-    // // if routine
-    // case "routine":
-    //   setTimeout(() => {
-    //     fetch(url + `automation/trigger/`, {
-    //       method: "POST",
-    //       headers: headers,
-    //       body: JSON.stringify({
-    //         entity_id: `automation.${target}`,
-    //       }),
-    //     });
-    //   }, delay);
-  }
+  //   // // if blinds
+  //   // case "blinds":
+
+  //   // if routine
+  //   case "routine":
+  //     setTimeout(() => {
+  //       fetch(url + `automation/trigger/`, {
+  //         method: "POST",
+  //         headers: headers,
+  //         body: JSON.stringify({
+  //           entity_id: `automation.${target}`,
+  //         }),
+  //       });
+  //     }, delay);
+  // }
+  console.log("poop");
+  res.send("poop");
 });
