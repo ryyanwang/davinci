@@ -23,21 +23,6 @@ app.listen(8080, () => {
   console.log("listening on port 8080");
 });
 
-app.get("/testCommandOn", (req, res) => {
-  var commandData = req.body;
-
-  fetch("http://localhost:8123/api/services/switch/turn_on", {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      entity_id: "switch.office",
-    }),
-  });
-  // .then((response) => response.text())
-  // .then((data) => console.log(data))
-  // .catch((error) => console.error(error));
-});
-
 app.get("/testCommandOff", (req, res) => {
   var commandData = req.body;
 
@@ -64,14 +49,15 @@ app.get("/test", (req, res) => {
 //   "target": "thermostat",
 //   "property": "temperature",
 // }
+
 app.post("/query", (req, res) => {
   var queryData = req.body;
   var location = queryData.location;
   var property = queryData.property;
-  let url = "";
+  let url = homesAssistantAPIURL + "states/";
   switch (queryData.target) {
     case "thsensor":
-      url = homesAssistantAPIURL + `states/sensor.${location}${property}`;
+      url = url + `/sensor.${location}${property}`;
       fetch(url, {
         method: "GET",
         headers: headers,
@@ -81,18 +67,19 @@ app.post("/query", (req, res) => {
           var value = data.state;
           if (property == "humidity") {
             res.send(
-              `The relative humidity in the ${location} is currently ${value}%`
+              `The relative humidity in the ${location} is currently ${value}%.`
             );
           } else {
             res.send(
-              `The temperature in the ${location} is currently ${value} degrees Celsius`
+              `The temperature in the ${location} is currently ${value} degrees Celsius.`
             );
           }
         })
         .catch((error) => console.error(error));
 
+    // TODO: NEED TO ADD PROPERTY
     case "doorsensor":
-      url = homesAssistantAPIURL + `states/binary_sensor.${location}`;
+      url = url + `/binary_sensor.${location}${property}`;
 
       fetch(url, {
         method: "GET",
@@ -106,9 +93,36 @@ app.post("/query", (req, res) => {
           );
         });
 
-    case "motionsensor":
-
     case "watersensor":
+      url = url + `binary_sensor.${location}${property}`;
+      console.log(url);
+      fetch(url, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.send(
+            data.state == "off"
+              ? `No water detected in the ${location}.`
+              : `Water detected in the ${location}.`
+          );
+        });
+    case "motionsensor":
+      url = url + `binary_sensor.${location}${property}`;
+      console.log(url);
+      fetch(url, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.send(
+            data.state == "off"
+              ? `No motion detected in the ${location}.`
+              : `Motion detected in the ${location}.`
+          );
+        });
   }
 });
 
@@ -127,13 +141,15 @@ app.post("/command", (req, res) => {
   // configure delay
   let delay = commandData.delay * 1000;
 
-  // if routine
-
-  // if blinds
-
+  switch (commandData.target) {
+  }
   // if smartplug
 
   // if smartlight
+
+  // if routine
+
+  // if blinds
 
   fetch(url, {
     method: "POST",
@@ -143,4 +159,19 @@ app.post("/command", (req, res) => {
     .then((response) => response.text())
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
+});
+
+app.get("/testCommandOn", (req, res) => {
+  var commandData = req.body;
+
+  fetch("http://localhost:8123/api/services/switch/turn_on", {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify({
+      entity_id: "switch.office",
+    }),
+  });
+  // .then((response) => response.text())
+  // .then((data) => console.log(data))
+  // .catch((error) => console.error(error));
 });
