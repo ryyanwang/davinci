@@ -52,11 +52,12 @@ app.post("/query", (req, res) => {
   let property = queryData.property;
   let target = queryData.target;
 
-  let url = homesAssistantAPIURL + "states";
+  var url = homesAssistantAPIURL + "states";
+
   switch (queryData.target) {
-    case "thsensor":
-      url = url + `/sensor.${location}${property}`;
-      fetch(url, {
+    case "thsensor": {
+      `/sensor.${location}${property}`;
+      fetch(url + `/sensor.${location}${property}`, {
         method: "GET",
         headers: headers,
       })
@@ -74,29 +75,30 @@ app.post("/query", (req, res) => {
           }
         })
         .catch((error) => console.error(error));
+      break;
+    }
 
     // TODO: NEED TO ADD PROPERTY
-    case "doorsensor":
+    case "doorsensor": {
       console.log(`${location}`);
       console.log(`${property}`);
       console.log(`${target}`);
-      url = url + `/binary_sensor.${location}${target}`;
+      console.log(url + `/binary_sensor.${location}${target}`);
       fetch(url, {
         method: "GET",
         headers: headers,
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data.state);
           res.send(
             `The ${location} door is ${data.state == "on" ? "open" : "closed"}.`
           );
         });
+      break;
+    }
 
-    case "watersensor":
-      url = url + `/binary_sensor.${location}${property}`;
-      console.log(url);
-      fetch(url, {
+    case "watersensor": {
+      fetch(url + `/binary_sensor.${location}${property}`, {
         method: "GET",
         headers: headers,
       })
@@ -108,10 +110,11 @@ app.post("/query", (req, res) => {
               : `Water detected in the ${location}.`
           );
         });
-    case "motionsensor":
-      url = url + `/binary_sensor.${location}${property}`;
-      console.log(url);
-      fetch(url, {
+      break;
+    }
+
+    case "motionsensor": {
+      fetch(url + `/binary_sensor.${location}${property}`, {
         method: "GET",
         headers: headers,
       })
@@ -123,6 +126,8 @@ app.post("/query", (req, res) => {
               : `Motion detected in the ${location}.`
           );
         });
+      break;
+    }
   }
 });
 
@@ -167,7 +172,7 @@ app.post("/command", (req, res) => {
           });
         }, delay);
       }
-
+      break;
     // // if light
     case "switch":
       console.log("poop");
@@ -197,6 +202,7 @@ app.post("/command", (req, res) => {
           });
         }, delay);
       }
+      break;
 
     // if blinds
     case "blinds":
@@ -229,6 +235,7 @@ app.post("/command", (req, res) => {
             });
         }, delay);
       }
+      break;
 
     // if routine
     case "routine":
@@ -241,5 +248,6 @@ app.post("/command", (req, res) => {
           }),
         });
       }, delay);
+      break;
   }
 });
