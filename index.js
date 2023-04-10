@@ -37,10 +37,6 @@ app.get("/testCommandOff", (req, res) => {
   // .then((data) => console.log(data))
   // .catch((error) => console.error(error));
 });
-app.get("/test", (req, res) => {
-  console.log(`poop`);
-  res.send("poop");
-});
 
 // Query JSON data
 // {
@@ -51,10 +47,12 @@ app.get("/test", (req, res) => {
 // }
 
 app.post("/query", (req, res) => {
-  var queryData = req.body;
-  var location = queryData.location;
-  var property = queryData.property;
-  let url = homesAssistantAPIURL + "states/";
+  let queryData = req.body;
+  let location = queryData.location;
+  let property = queryData.property;
+  let target = queryData.target;
+
+  let url = homesAssistantAPIURL + "states";
   switch (queryData.target) {
     case "thsensor":
       url = url + `/sensor.${location}${property}`;
@@ -79,8 +77,10 @@ app.post("/query", (req, res) => {
 
     // TODO: NEED TO ADD PROPERTY
     case "doorsensor":
-      url = url + `/binary_sensor.${location}${property}`;
-
+      console.log(`${location}`);
+      console.log(`${property}`);
+      console.log(`${target}`);
+      url = url + `/binary_sensor.${location}${target}`;
       fetch(url, {
         method: "GET",
         headers: headers,
@@ -94,7 +94,7 @@ app.post("/query", (req, res) => {
         });
 
     case "watersensor":
-      url = url + `binary_sensor.${location}${property}`;
+      url = url + `/binary_sensor.${location}${property}`;
       console.log(url);
       fetch(url, {
         method: "GET",
@@ -109,7 +109,7 @@ app.post("/query", (req, res) => {
           );
         });
     case "motionsensor":
-      url = url + `binary_sensor.${location}${property}`;
+      url = url + `/binary_sensor.${location}${property}`;
       console.log(url);
       fetch(url, {
         method: "GET",
@@ -135,77 +135,111 @@ app.post("/query", (req, res) => {
 //   "comment": "I'm setting up the departure routine for you. All lights will be turned off and the blinds will be closed in 5 minutes.",
 //   "delay": 3}
 app.post("/command", (req, res) => {
-  // var commandData = req.body;
+  var commandData = req.body;
 
-  // let url = homesAssistantAPIURL + "services/";
-  // // configure delay
-  // let delay = commandData.delay * 1000;
-  // let location = commandData.location;
-  // switch (commandData.target) {
-  //   //if plug
-  //   case "plug":
-  //     if (commandData.value == "on") {
-  //       setTimeout(() => {
-  //         fetch(url + "switch/turn_on", {
-  //           method: "POST",
-  //           headers: headers,
-  //           body: JSON.stringify({
-  //             entity_id: `switch.${location}plug`,
-  //           }),
-  //         });
-  //       }, delay);
-  //     } else {
-  //       setTimeout(() => {
-  //         fetch(url + "switch/turn_off", {
-  //           method: "POST",
-  //           headers: headers,
-  //           body: JSON.stringify({
-  //             entity_id: `switch.${location}plug`,
-  //           }),
-  //         });
-  //       }, delay);
-  //     }
+  let url = homesAssistantAPIURL + "services";
+  // configure delay
+  let delay = commandData.delay * 1000;
+  let location = commandData.location;
+  let target = commandData.target;
 
-  //     // // if light
-  //     // case "switch":
+  switch (commandData.target) {
+    //if plug
+    case "plug":
+      if (commandData.value == "on") {
+        setTimeout(() => {
+          fetch(url + "/switch/turn_on", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}plug`,
+            }),
+          });
+        }, delay);
+      } else {
+        setTimeout(() => {
+          fetch(url + "/switch/turn_off", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}plug`,
+            }),
+          });
+        }, delay);
+      }
 
-  //     if (commandData.value == "on") {
-  //       setTimeout(() => {
-  //         fetch(url + "switch/turn_on", {
-  //           method: "POST",
-  //           headers: headers,
-  //           body: JSON.stringify({
-  //             entity_id: `switch.${location}lightswitch`,
-  //           }),
-  //         });
-  //       }, delay);
-  //     } else {
-  //       setTimeout(() => {
-  //         fetch(url + "switch/turn_off", {
-  //           method: "POST",
-  //           headers: headers,
-  //           body: JSON.stringify({
-  //             entity_id: `switch.${location}lightswitch`,
-  //           }),
-  //         });
-  //       }, delay);
-  //     }
+    // // if light
+    case "switch":
+      console.log("poop");
+      if (commandData.value == "on") {
+        console.log("poop1");
+        setTimeout(() => {
+          fetch(url + "/switch/turn_on", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}lightswitch`,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
+        }, delay);
+      } else {
+        setTimeout(() => {
+          fetch(url + "/switch/turn_off", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `switch.${location}lightswitch`,
+            }),
+          });
+        }, delay);
+      }
 
-  //   // // if blinds
-  //   // case "blinds":
+    // if blinds
+    case "blinds":
+      if (commandData.value == "uncover") {
+        setTimeout(() => {
+          fetch(url + "/cover/open_cover", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `cover.${location}blinds`,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
+        }, delay);
+      } else {
+        setTimeout(() => {
+          fetch(url + "/cover/close_cover", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+              entity_id: `cover.${location}blinds`,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
+        }, delay);
+      }
 
-  //   // if routine
-  //   case "routine":
-  //     setTimeout(() => {
-  //       fetch(url + `automation/trigger/`, {
-  //         method: "POST",
-  //         headers: headers,
-  //         body: JSON.stringify({
-  //           entity_id: `automation.${target}`,
-  //         }),
-  //       });
-  //     }, delay);
-  // }
-  console.log("poop");
-  res.send("poop");
+    // if routine
+    case "routine":
+      setTimeout(() => {
+        fetch(url + `/automation/trigger/`, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            entity_id: `automation.${target}`,
+          }),
+        });
+      }, delay);
+  }
 });
