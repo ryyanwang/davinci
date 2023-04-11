@@ -94,7 +94,14 @@ app.post("/query", (req, res) => {
         method: "GET",
         headers: headers,
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            res.send(`Error getting information from door sensor`);
+            return;
+          }
+        })
         .then((data) => {
           res.send(
             `The ${location} door is ${data.state == "on" ? "open" : "closed"}.`
@@ -108,7 +115,14 @@ app.post("/query", (req, res) => {
         method: "GET",
         headers: headers,
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            res.send(`Error getting information from water sensor`);
+            return;
+          }
+        })
         .then((data) => {
           res.send(
             data.state == "off"
@@ -124,7 +138,14 @@ app.post("/query", (req, res) => {
         method: "GET",
         headers: headers,
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            res.send(`Error getting information from motion sensor`);
+            return;
+          }
+        })
         .then((data) => {
           res.send(
             data.state == "off"
@@ -134,6 +155,8 @@ app.post("/query", (req, res) => {
         });
       break;
     }
+    default:
+      res.send(`Couldn't find  your device`);
   }
 
   // res.send(`Couldn't find your device.`);
