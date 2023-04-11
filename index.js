@@ -52,91 +52,91 @@ app.post("/query", (req, res) => {
   let property = queryData.property;
   let target = queryData.target;
 
-  var url = homesAssistantAPIURL + "states";
+  let url = homesAssistantAPIURL + "states";
 
-  try {
-    switch (queryData.target) {
-      case "thsensor": {
-        `/sensor.${location}${property}`;
-        fetch(url + `/sensor.${location}${property}`, {
-          method: "GET",
-          headers: headers,
+  switch (queryData.target) {
+    case "thsensor": {
+      console.log(`poop`);
+      fetch(url + `/sensor.${location}${property}`, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+            return response.json();
+          } else {
+            res.send("Temperature humidity sensor not found.");
+            return;
+          }
         })
-          .then((response) => {
-            if (response.ok) {
-              response.json();
-            } else {
-              throw new Error("Error getting response");
-            }
-          })
-          .then((data) => {
-            var value = data.state;
-            if (property == "humidity") {
-              res.send(
-                `The relative humidity in the ${location} is currently ${value}%.`
-              );
-            } else {
-              res.send(
-                `The temperature in the ${location} is currently ${value} degrees Celsius.`
-              );
-            }
-          })
-          .catch((error) => console.error(error));
-        break;
-      }
-
-      // TODO: NEED TO ADD PROPERTY
-      case "doorsensor": {
-        fetch(url, {
-          method: "GET",
-          headers: headers,
-        })
-          .then((response) => response.json())
-          .then((data) => {
+        .then((data) => {
+          var value = data.state;
+          console.log(value);
+          if (property == "humidity") {
             res.send(
-              `The ${location} door is ${
-                data.state == "on" ? "open" : "closed"
-              }.`
+              `The relative humidity in the ${location} is currently ${value}%.`
             );
-          });
-        break;
-      }
-
-      case "watersensor": {
-        fetch(url + `/binary_sensor.${location}${property}`, {
-          method: "GET",
-          headers: headers,
-        })
-          .then((response) => response.json())
-          .then((data) => {
+            return;
+          } else {
             res.send(
-              data.state == "off"
-                ? `No water detected in the ${location}.`
-                : `Water detected in the ${location}.`
+              `The temperature in the ${location} is currently ${value} degrees Celsius.`
             );
-          });
-        break;
-      }
-
-      case "motionsensor": {
-        fetch(url + `/binary_sensor.${location}${property}`, {
-          method: "GET",
-          headers: headers,
+            return;
+          }
         })
-          .then((response) => response.json())
-          .then((data) => {
-            res.send(
-              data.state == "off"
-                ? `No motion detected in the ${location}.`
-                : `Motion detected in the ${location}.`
-            );
-          });
-        break;
-      }
+        .catch((error) => {});
+      break;
     }
-  } catch (e) {
-    res.status(400).send(`oh no`);
+
+    case "doorsensor": {
+      fetch(url, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.send(
+            `The ${location} door is ${data.state == "on" ? "open" : "closed"}.`
+          );
+        });
+      break;
+    }
+
+    case "watersensor": {
+      fetch(url + `/binary_sensor.${location}${property}`, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.send(
+            data.state == "off"
+              ? `No water detected in the ${location}.`
+              : `Water detected in the ${location}.`
+          );
+        });
+      break;
+    }
+
+    case "motionsensor": {
+      fetch(url + `/binary_sensor.${location}${property}`, {
+        method: "GET",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          res.send(
+            data.state == "off"
+              ? `No motion detected in the ${location}.`
+              : `Motion detected in the ${location}.`
+          );
+        });
+      break;
+    }
   }
+
+  // res.send(`Couldn't find your device.`);
 });
 
 // Command JSON data
