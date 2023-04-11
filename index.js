@@ -159,7 +159,11 @@ app.post("/command", (req, res) => {
             body: JSON.stringify({
               entity_id: `switch.${location}plug`,
             }),
-          });
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
         }, delay);
       } else {
         setTimeout(() => {
@@ -169,7 +173,11 @@ app.post("/command", (req, res) => {
             body: JSON.stringify({
               entity_id: `switch.${location}plug`,
             }),
-          });
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
         }, delay);
       }
       break;
@@ -199,7 +207,11 @@ app.post("/command", (req, res) => {
             body: JSON.stringify({
               entity_id: `switch.${location}lightswitch`,
             }),
-          });
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              res.send("yeet");
+            });
         }, delay);
       }
       break;
@@ -239,14 +251,20 @@ app.post("/command", (req, res) => {
 
     // if routine
     case "routine":
+      console.log("reached routine");
+      console.log(url + `/automation/trigger/`);
       setTimeout(() => {
-        fetch(url + `/automation/trigger/`, {
+        fetch(url + `/automation/trigger`, {
           method: "POST",
           headers: headers,
           body: JSON.stringify({
-            entity_id: `automation.${target}`,
+            entity_id: `automation.${commandData.value}`,
           }),
-        });
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            res.send("yeet");
+          });
       }, delay);
       break;
   }
