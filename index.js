@@ -75,7 +75,9 @@ app.post("/query", (req, res) => {
           if (response.ok) {
             return response.json();
           } else {
-            res.send("Temperature humidity sensor not found.");
+            res.send(
+              `Couldn't find your ${location} temperature humidity sensor. Please try again`
+            );
             return;
           }
         })
@@ -107,7 +109,9 @@ app.post("/query", (req, res) => {
           if (response.ok) {
             return response.json();
           } else {
-            res.send(`Error getting information from door sensor`);
+            res.send(
+              `Couldn't find your ${location} door sensor. Please try again.`
+            );
             return;
           }
         })
@@ -128,7 +132,9 @@ app.post("/query", (req, res) => {
           if (response.ok) {
             return response.json();
           } else {
-            res.send(`Error getting information from water sensor`);
+            res.send(
+              `Couldn't find your ${location} watersensor. Could you try again?`
+            );
             return;
           }
         })
@@ -151,7 +157,9 @@ app.post("/query", (req, res) => {
           if (response.ok) {
             return response.json();
           } else {
-            res.send(`Error getting information from motion sensor`);
+            res.send(
+              `Couldn't find your ${location} motion sensor. Please try again`
+            );
             return;
           }
         })
@@ -165,7 +173,7 @@ app.post("/query", (req, res) => {
       break;
     }
     default:
-      res.send(`Couldn't find  your device`);
+      res.send(`Couldn't find your device. Please try again.`);
   }
 });
 
@@ -201,13 +209,17 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`Couldn't find your smart plug. Please try again.`);
+                res.send(
+                  `Couldn't find your ${location} smart plug. Please try again.`
+                );
                 return;
               }
             })
             .then((data) => {
               if (Array.isArray(data) && data.length === 0) {
-                res.send(`Couldn't find your smart plug. Please try again`);
+                res.send(
+                  `Couldn't find your ${location} smart plug. Please try again`
+                );
               } else {
                 res.send("ok");
               }
@@ -226,13 +238,17 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`Couldn't find your smart plug. Please try again.`);
+                res.send(
+                  `Couldn't find your ${location} smart plug. Please try again.`
+                );
                 return;
               }
             })
             .then((data) => {
               if (Array.isArray(data) && data.length === 0) {
-                res.send(`Couldn't find your smart plug. Please try again`);
+                res.send(
+                  `Couldn't find your ${location} smart plug. Please try again`
+                );
               } else {
                 res.send("ok");
               }
@@ -255,13 +271,17 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`Couldn't find your light switch. Please try again`);
+                res.send(
+                  `Couldn't find your ${location} light switch. Please try again`
+                );
                 return;
               }
             })
             .then((data) => {
               if (Array.isArray(data) && data.length === 0) {
-                res.send(`Couldn't find your light switch. Please try again`);
+                res.send(
+                  `Couldn't find your ${location} light switch. Please try again`
+                );
               } else {
                 res.send("ok");
               }
@@ -280,13 +300,17 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`Couldn't find your light switch. Please try again.`);
+                res.send(
+                  `Couldn't find your ${location} light switch. Please try again.`
+                );
                 return;
               }
             })
             .then((data) => {
               if (Array.isArray(data) && data.length === 0) {
-                res.send(`Couldn't find your light switch. Please try again`);
+                res.send(
+                  `Couldn't find your ${location} light switch. Please try again`
+                );
               } else {
                 res.send("ok");
               }
@@ -310,14 +334,18 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`We couldn't find your covers. Please try again.`);
+                res.send(
+                  `We couldn't find your ${location} covers. Please try again.`
+                );
                 return;
               }
             })
             .then((data) => {
               {
                 if (Array.isArray(data) && data.length === 0) {
-                  res.send(`We couldn't find your covers. Please try again`);
+                  res.send(
+                    `We couldn't find your ${location} covers. Please try again`
+                  );
                 } else {
                   res.send("ok");
                 }
@@ -339,13 +367,17 @@ app.post("/command", (req, res) => {
               if (response.ok) {
                 return response.json();
               } else {
-                res.send(`We couldn't find your covers. Please try again`);
+                res.send(
+                  `We couldn't find your ${location} covers. Please try again`
+                );
                 return;
               }
             })
             .then((data) => {
               if (Array.isArray(data) && data.length === 0) {
-                res.send(`We couldn't find your covers. Please try again`);
+                res.send(
+                  `We couldn't find your ${location} covers. Please try again`
+                );
               } else {
                 res.send("ok");
               }
@@ -370,23 +402,26 @@ app.post("/command", (req, res) => {
               return response.json();
             } else {
               res.send(
-                `There was an error initalizing your routine. Please try again`
+                `There was an error initalizing your ${commandData.value} routine. Please try again`
               );
               return;
             }
           })
           .then((data) => {
             if (Array.isArray(data) && data.length === 0) {
-              res.send(`Couldn't recognize that routine. Please try again.`);
+              res.send(
+                `Couldn't recognize your ${commandData.value} routine. Please try again.`
+              );
             } else {
               res.send("ok");
             }
           });
       }, delay);
       break;
-
     default: {
-      res.send("We couldn't find your device. Please try again.");
+      res.send(
+        `We couldn't find your device in the ${location}. Please try again.`
+      );
     }
   }
 });
