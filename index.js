@@ -206,7 +206,11 @@ app.post("/command", (req, res) => {
               }
             })
             .then((data) => {
-              res.send("ok");
+              if (Array.isArray(data) && data.length === 0) {
+                res.send(`Couldn't find your smart plug. Please try again`);
+              } else {
+                res.send("ok");
+              }
             });
         }, delay);
       } else {
@@ -227,7 +231,11 @@ app.post("/command", (req, res) => {
               }
             })
             .then((data) => {
-              res.send("ok");
+              if (Array.isArray(data) && data.length === 0) {
+                res.send(`Couldn't find your smart plug. Please try again`);
+              } else {
+                res.send("ok");
+              }
             });
         }, delay);
       }
@@ -252,7 +260,11 @@ app.post("/command", (req, res) => {
               }
             })
             .then((data) => {
-              res.send("ok");
+              if (Array.isArray(data) && data.length === 0) {
+                res.send(`Couldn't find your light switch. Please try again`);
+              } else {
+                res.send("ok");
+              }
             });
         }, delay);
       } else {
@@ -273,7 +285,11 @@ app.post("/command", (req, res) => {
               }
             })
             .then((data) => {
-              res.send("ok");
+              if (Array.isArray(data) && data.length === 0) {
+                res.send(`Couldn't find your light switch. Please try again`);
+              } else {
+                res.send("ok");
+              }
             });
         }, delay);
       }
@@ -299,7 +315,14 @@ app.post("/command", (req, res) => {
               }
             })
             .then((data) => {
-              res.send("ok");
+              {
+                if (Array.isArray(data) && data.length === 0) {
+                  res.send(`We couldn't find your covers. Please try again`);
+                } else {
+                  res.send("ok");
+                }
+                console.log(data);
+              }
             });
         }, delay);
       } else {
@@ -353,10 +376,15 @@ app.post("/command", (req, res) => {
             }
           })
           .then((data) => {
-            res.send("ok");
+            if (Array.isArray(data) && data.length === 0) {
+              res.send(`Couldn't recognize that routine. Please try again.`);
+            } else {
+              res.send("ok");
+            }
           });
       }, delay);
       break;
+
     default: {
       res.send("We couldn't find your device. Please try again.");
     }
