@@ -38,6 +38,15 @@ app.get("/testCommandOff", (req, res) => {
   // .catch((error) => console.error(error));
 });
 
+app.get(`/test`, (req, res) => {
+  data = req.body;
+  if (data == []) {
+    res.send(`poop`);
+  } else {
+    res.send(`pee`);
+  }
+});
+
 // Query JSON data
 // {
 //   "action": "query",
@@ -158,8 +167,6 @@ app.post("/query", (req, res) => {
     default:
       res.send(`Couldn't find  your device`);
   }
-
-  // res.send(`Couldn't find your device.`);
 });
 
 // Command JSON data
@@ -190,9 +197,16 @@ app.post("/command", (req, res) => {
               entity_id: `switch.${location}plug`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`Couldn't find your smart plug. Please try again.`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              res.send("ok");
             });
         }, delay);
       } else {
@@ -204,9 +218,16 @@ app.post("/command", (req, res) => {
               entity_id: `switch.${location}plug`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`Couldn't find your smart plug. Please try again.`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              res.send("ok");
             });
         }, delay);
       }
@@ -222,9 +243,16 @@ app.post("/command", (req, res) => {
               entity_id: `switch.${location}lightswitch`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`Couldn't find your light switch. Please try again`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              res.send("ok");
             });
         }, delay);
       } else {
@@ -236,9 +264,16 @@ app.post("/command", (req, res) => {
               entity_id: `switch.${location}lightswitch`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`Couldn't find your light switch. Please try again.`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              res.send("ok");
             });
         }, delay);
       }
@@ -255,9 +290,16 @@ app.post("/command", (req, res) => {
               entity_id: `cover.${location}blinds`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`We couldn't find your covers. Please try again.`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              res.send("ok");
             });
         }, delay);
       } else {
@@ -269,9 +311,22 @@ app.post("/command", (req, res) => {
               entity_id: `cover.${location}blinds`,
             }),
           })
-            .then((response) => response.json())
+            .then((response) => {
+              console.log(response);
+              if (response.ok) {
+                return response.json();
+              } else {
+                res.send(`We couldn't find your covers. Please try again`);
+                return;
+              }
+            })
             .then((data) => {
-              res.send("yeet");
+              if (Array.isArray(data) && data.length === 0) {
+                res.send(`We couldn't find your covers. Please try again`);
+              } else {
+                res.send("ok");
+              }
+              console.log(data);
             });
         }, delay);
       }
@@ -287,11 +342,23 @@ app.post("/command", (req, res) => {
             entity_id: `automation.${commandData.value}`,
           }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              res.send(
+                `There was an error initalizing your routine. Please try again`
+              );
+              return;
+            }
+          })
           .then((data) => {
-            res.send("yeet");
+            res.send("ok");
           });
       }, delay);
       break;
+    default: {
+      res.send("We couldn't find your device. Please try again.");
+    }
   }
 });
