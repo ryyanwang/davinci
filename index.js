@@ -10,8 +10,6 @@ const haToken =
   //process.env.HA_API_KEY;
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmQzOTkzNjY0MTc0NThhOTMzMTgxNWEzZjFiNGUwNCIsImlhdCI6MTY4MDE2Mjc5MSwiZXhwIjoxOTk1NTIyNzkxfQ.8LfUN-Y1sbfMGCPbcyLKDkzlVi_oEblqTnqlUcMAWG0";
 
-// CONST URL = TODO
-
 const headers = {
   Authorization: `Bearer ${haToken}`,
   "Content-Type": "application/json",
@@ -63,7 +61,7 @@ app.post("/query", (req, res) => {
 
   let url = homesAssistantAPIURL + "states";
 
-  switch (queryData.target) {
+  switch (target) {
     // if temperature humidity sensor
     case "thsensor": {
       console.log(`poop`);
@@ -101,6 +99,7 @@ app.post("/query", (req, res) => {
       break;
     }
 
+    // if door sensor
     case "doorsensor": {
       fetch(url + `/binary_sensor.${location}doorsensor`, {
         method: "GET",
@@ -125,7 +124,7 @@ app.post("/query", (req, res) => {
     }
 
     case "watersensor": {
-      fetch(url + `/binary_sensor.${location}${property}`, {
+      fetch(url + `/binary_sensor.${location}${target}`, {
         method: "GET",
         headers: headers,
       })
@@ -150,7 +149,7 @@ app.post("/query", (req, res) => {
     }
 
     case "motionsensor": {
-      fetch(url + `/binary_sensor.${location}${property}`, {
+      fetch(url + `/binary_sensor.${location}${target}`, {
         method: "GET",
         headers: headers,
       })
@@ -259,7 +258,7 @@ app.post("/command", (req, res) => {
       }
       break;
     // // if light
-    case "switch":
+    case "lightswitch":
       if (commandData.value == "on") {
         setTimeout(() => {
           fetch(url + "/switch/turn_on", {
