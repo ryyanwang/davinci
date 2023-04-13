@@ -64,6 +64,7 @@ app.post("/query", (req, res) => {
   let url = homesAssistantAPIURL + "states";
 
   switch (queryData.target) {
+    // if temperature humidity sensor
     case "thsensor": {
       console.log(`poop`);
       fetch(url + `/sensor.${location}${property}`, {
@@ -101,7 +102,7 @@ app.post("/query", (req, res) => {
     }
 
     case "doorsensor": {
-      fetch(url, {
+      fetch(url + `/binary_sensor.${location}doorsensor`, {
         method: "GET",
         headers: headers,
       })
@@ -177,7 +178,7 @@ app.post("/query", (req, res) => {
   }
 });
 
-// Command JSON data
+// SAMPLE COMMAND
 // {
 //   "action": "command",
 //   "location": "office",
@@ -185,6 +186,7 @@ app.post("/query", (req, res) => {
 //   "value": "off",
 //   "comment": "I'm setting up the departure routine for you. All lights will be turned off and the blinds will be closed in 5 minutes.",
 //   "delay": 3}
+
 app.post("/command", (req, res) => {
   var commandData = req.body;
 
