@@ -104,8 +104,18 @@ npm install
 Input your Home Assistant API key into the variable.
 
 
+```
+haToken = "yourapitoken"
+```
+
+
 Input the location of your local home assistant API URL.
 This is defaulted at http://localhost:8123/api/, so you shouldn't need to change anything.
+
+```
+const homesAssistantAPIURL ="http://localhost:8123/api/";
+```
+
 
 ### Run your application
 
