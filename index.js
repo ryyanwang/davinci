@@ -1,15 +1,9 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-//
 
-const homesAssistantAPIURL =
-  //process.env.HOME_ASSISTANT_API_URL;
-
-  "http://localhost:8123/api/";
-const haToken =
-  //process.env.HA_API_KEY;
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmQzOTkzNjY0MTc0NThhOTMzMTgxNWEzZjFiNGUwNCIsImlhdCI6MTY4MDE2Mjc5MSwiZXhwIjoxOTk1NTIyNzkxfQ.8LfUN-Y1sbfMGCPbcyLKDkzlVi_oEblqTnqlUcMAWG0";
+const homesAssistantAPIURL = "http://localhost:8123/api/";
+const haToken = "homeassistanttokenhere";
 
 const headers = {
   Authorization: `Bearer ${haToken}`,
@@ -22,31 +16,7 @@ app.listen(8080, () => {
   console.log("listening on port 8080");
 });
 
-app.get("/testCommandOff", (req, res) => {
-  var commandData = req.body;
-
-  fetch("http://localhost:8123/api/services/switch/turn_off", {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      entity_id: "switch.office",
-    }),
-  });
-  // .then((response) => response.text())
-  // .then((data) => console.log(data))
-  // .catch((error) => console.error(error));
-});
-
-app.get(`/test`, (req, res) => {
-  data = req.body;
-  if (data == []) {
-    res.send(`poop`);
-  } else {
-    res.send(`pee`);
-  }
-});
-
-// Query JSON data
+// SAMPLE QUERY
 // {
 //   "action": "query",
 //   "location": "living room",
@@ -124,6 +94,7 @@ app.post("/query", (req, res) => {
       break;
     }
 
+    // if water sensor
     case "watersensor": {
       fetch(url + `/binary_sensor.${location}${target}`, {
         method: "GET",
@@ -149,6 +120,7 @@ app.post("/query", (req, res) => {
       break;
     }
 
+    // if motion sensor
     case "motionsensor": {
       fetch(url + `/binary_sensor.${location}${target}`, {
         method: "GET",
@@ -173,6 +145,8 @@ app.post("/query", (req, res) => {
         });
       break;
     }
+
+    // coudln't find target
     default:
       res.send(`Couldn't find your device. Please try again.`);
   }
