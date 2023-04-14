@@ -1,7 +1,7 @@
 # When Chat-GPT meets Third Reality
 
 ## Introduction
-Here in the Third Reality Lab, we were inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I highly suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
+Here in the Third Reality Lab, we were inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I **highly** suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
 
 We tried to integrate this idea into the Home Assistant and Third Reality Ecosystem. The difficulty lies in the fact that Third Reality has no integrations with Apple's Homekit ecosystem. In other words, you cannot directly control the devices from the IPhone; They required middleware. We decided to use a simple local JS server to parse information and use it to control the smart home devices. 
 
