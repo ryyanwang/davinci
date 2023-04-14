@@ -57,6 +57,9 @@ One feature we added is the ability to create conversations with multiple back a
 #### Adding devices
 Once your all setup in Home Assistant, you can begin adding your devices via Zigbee. Once your devices have been added, it's important to change the entity ID of your devices to follow a convetion. **NOTE:** This is not optional. Devices are connected through this naming convention, and will not work otherwise.
 
+![Screenshot from 2023-04-14 00-38-21](https://user-images.githubusercontent.com/77647164/231976686-e3b6e945-2cfe-47b5-bed2-06a391a6c6c0.png)
+
+
 ##### Temperature: sensor.{location}{property}
 
 -ex: sensor.officetemperature
@@ -73,7 +76,10 @@ Once your all setup in Home Assistant, you can begin adding your devices via Zig
 ##### Smart Blinds:
 - cover.{location}blinds
 
-Routine:
+Routine: Routines are just automations under the hood. Setup automations as you normally would, and configure a name that best fits the automation (such as 'departure' or 'arrival' as we have done. 
+
+![Screenshot from 2023-04-14 00-40-38](https://user-images.githubusercontent.com/77647164/231977453-7e8e95fe-3673-4da2-a30c-dc730cfad7df.png)
+
 
 #### Obtaining an API Key
 In order to access Home Assistant through its REST API endpoints, you need to provide an API key in the header of your response. You can obtain an access token in the Profile section of the Home Assistant UI. You will need this later on when you setup your controller so your JS program can call Home Assistant services.
