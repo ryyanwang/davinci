@@ -13,7 +13,7 @@ If you didn't take the time to read the blog post, I'll quickly summarize how it
 
 We can then give requests, and the model generate some action that it thinks is best fit for the request. 
 
-##### Example: 
+##### Example 1: 
 ###### Request: 
 - "I'm about to record a demo in the studio, but it's a bit dark in here."
 
@@ -28,7 +28,36 @@ We can then give requests, and the model generate some action that it thinks is 
 "delay": 0
 }
 ```
+###### Siri: "Turning on the lights in the studio to help you record your demo."
 
+##### Example 2: 
+###### Request: 
+- "Think I heard some noise in the backyard, think you could check that for me?"
+
+###### Response: 
+```
+{
+"action": "query",
+"location": "backyard",
+"target": "motionsensor",
+"property": 0
+}
+```
+###### Siri: "Motion detected in the Backyard."
+
+###### Request : 
+- "Then could you check the backdoor?"
+
+###### Response: 
+```
+{
+"action": "query",
+"location": "backdoor",
+"target": "doorsensor",
+"property": 0
+}
+```
+###### Siri: "Backdoor is closed."
 
 This information is then sent to out controller, who completes our request by calling an API on our local Home Assistant instance.
 
