@@ -121,7 +121,7 @@ In order to access Home Assistant through its REST API endpoints, you need to pr
 
 Open up a new file and clone the github rep
 ```
-git clone https://github.com/thirdreality/thingything
+git clone https://github.com/thirdreality/samplerepo
 ```
 Install dependencies 
 ```
