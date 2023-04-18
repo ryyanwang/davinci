@@ -161,7 +161,7 @@ Once you have your API key, place it into the header section of your request. Yo
 ## Some food for thought (Future Ideas)
 
 ### Cloud implementation
-Currently, our integration is all done locally, which means that smarthome commands cannot be called from outside the home network. However, setting up your controller in the cloud （EC2, etc) would allow you to control your smart home from anywhere with internet connection, and would save you the trouble of having to consiously keep your server running. 
+Currently, our integration is all done locally, which means that smarthome commands cannot be called from outside the home network. However, setting up your controller in the cloud（EC2,etc) would allow you to control your smart home from anywhere with internet connection, and would save you the trouble of having to consiously keep your server running. 
 
 ### Fine tuning
 
