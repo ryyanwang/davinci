@@ -45,7 +45,7 @@ We can then give requests, and the model generate some action that it thinks is 
 ```
 ###### Siri: "Motion detected in the Backyard."
 
-###### Request : Query 
+###### Request : 
 - "Then could you check the backdoor?"
 
 ###### Response: 
