@@ -13,7 +13,7 @@ If you didn't take the time to read the blog post, I'll quickly summarize how it
 
 We can then give requests, and the model generate some action that it thinks is best fit for the request. 
 
-##### Example 1: 
+##### Example 1: Command 
 ###### Request: 
 - "I'm about to record a demo in the studio, but it's a bit dark in here."
 
@@ -30,7 +30,7 @@ We can then give requests, and the model generate some action that it thinks is 
 ```
 ###### Siri: "Turning on the lights in the studio to help you record your demo."
 
-##### Example 2: 
+##### Example 2: Query
 ###### Request: 
 - "Think I heard some noise in the backyard, think you could check that for me?"
 
@@ -45,7 +45,7 @@ We can then give requests, and the model generate some action that it thinks is 
 ```
 ###### Siri: "Motion detected in the Backyard."
 
-###### Request : 
+###### Request : Query 
 - "Then could you check the backdoor?"
 
 ###### Response: 
