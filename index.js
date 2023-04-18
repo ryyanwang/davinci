@@ -3,7 +3,8 @@ const app = express();
 require("dotenv").config();
 
 const homesAssistantAPIURL = "http://localhost:8123/api/";
-const haToken = "homeassistanttokenhere";
+const haToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1NmQzOTkzNjY0MTc0NThhOTMzMTgxNWEzZjFiNGUwNCIsImlhdCI6MTY4MDE2Mjc5MSwiZXhwIjoxOTk1NTIyNzkxfQ.8LfUN-Y1sbfMGCPbcyLKDkzlVi_oEblqTnqlUcMAWG0";
 
 const headers = {
   Authorization: `Bearer ${haToken}`,
@@ -233,7 +234,8 @@ app.post("/command", (req, res) => {
       }
       break;
     // // if light
-    case "lightswitch":
+    case "switch":
+      console.log(commandData);
       if (commandData.value == "on") {
         setTimeout(() => {
           fetch(url + "/switch/turn_on", {
