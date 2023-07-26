@@ -1,17 +1,17 @@
 # When Chat-GPT meets Third Reality
 
 ## Introduction
-Here in the Third Reality Lab, we were inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I **highly** suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
+I was inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I **highly** suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
 
-We tried to integrate this idea into the Home Assistant and Third Reality Ecosystem. The difficulty lies in the fact that Third Reality has no integrations with Apple's Homekit ecosystem. In other words, you cannot directly control the devices from the IPhone; They required middleware. We decided to use a simple local JS server to parse information and use it to control the smart home devices. 
+I tried to integrate this idea into the Home Assistant and Third Reality Ecosystem. The difficulty lies in the fact that Third Reality has no integrations with Apple's Homekit ecosystem. In other words, you cannot directly control the devices from the IPhone; They required middleware. I decided to use a simple local JS server to parse information and use it to control the smart home devices. 
 
 
-If you didn't take the time to read the blog post, I'll quickly summarize how it works in as simple terms as possible. We configure a prompt that gives the model details about our environment and the response we are looking for. The prompt should be specific to your own setup, so remember to adjust it to your own smart home setup. Also, once you understand the flow of the program, feel free to change the prompt if you come up with a better structure for request. The purpose of this repo is simply to provide a template/starting point for your smart home ecosystem. The following is the exact prompt we came up with in our demo:
+If you didn't take the time to read the blog post, I'll quickly summarize how it works in as simple terms as possible. I configure a prompt that gives the model details about our environment and the response I are looking for. The prompt should be specific to your own setup, so remember to adjust it to your own smart home setup. Also, once you understand the flow of the program, feel free to change the prompt if you come up with a better structure for request. The purpose of this repo is simply to provide a template/starting point for your smart home ecosystem. The following is the exact prompt I came up with in our demo:
 
 
 ![image](https://user-images.githubusercontent.com/77647164/231701017-9e47f1cf-2870-4122-9695-3178e6cf1c77.png)
 
-We can then give requests, and the model generate some action that it thinks is best fit for the request. 
+I can then give requests, and the model generate some action that it thinks is best fit for the request. 
 
 ##### Example 1: Command 
 ###### Request: 
@@ -69,7 +69,7 @@ This information is then sent to out controller, who completes our request by ca
 
 ### Shortcuts Flow 
 
-One feature we added is the ability to create conversations with multiple back and forth Requests and Responses. This was done by simply passing through the context of the conversation into each continued interation of the conversation (although this was quite the hassle to do in the shortcuts app). You can find the shortcut we used later on in the document. 
+One feature I added is the ability to create conversations with multiple back and forth Requests and Responses. This was done by simply passing through the context of the conversation into each continued interation of the conversation (although this was quite the hassle to do in the shortcuts app). You can find the shortcut I used later on in the document. 
 
 ![Screenshot from 2023-04-13 23-44-37](https://user-images.githubusercontent.com/77647164/231976030-ad82ac9b-5e8f-4b58-9b7c-e300271b85e0.png)
 
@@ -105,7 +105,7 @@ Once your all setup in Home Assistant, you can begin adding your devices via Zig
 ##### Smart Blinds:
 - cover.{location}blinds
 
-Routine: Routines are just automations under the hood. Setup automations as you normally would, and configure a name that best fits the automation (such as 'departure' or 'arrival' as we have done. 
+Routine: Routines are just automations under the hood. Setup automations as you normally would, and configure a name that best fits the automation (such as 'departure' or 'arrival' as I have done. 
 
 ![Screenshot from 2023-04-14 00-40-38](https://user-images.githubusercontent.com/77647164/231977453-7e8e95fe-3673-4da2-a30c-dc730cfad7df.png)
 
@@ -161,18 +161,18 @@ Once you have your API key, place it into the header section of your request. Yo
 ## Some food for thought (Future Ideas)
 
 ### Cloud implementation
-Currently, our integration is all done locally, which means that smarthome commands cannot be called from outside the home network. However, setting up your controller in the cloud（EC2,etc) would allow you to control your smart home from anywhere with internet connection, and would save you the trouble of having to consiously keep your server running. 
+Currently, our integration is all done locally, which means that smarthome commands cannot be called from outside the home network. HoIver, setting up your controller in the cloud（EC2,etc) would allow you to control your smart home from anywhere with internet connection, and would save you the trouble of having to consiously keep your server running. 
 
 ### Fine tuning
 
-As shown in the control flow, we are continuosly calling the API with the entire prompt, as well as previous recorded conversations, which seems unintuitive. Fine tuning the model would provide a numerous amounts of benefits, including:
-- Lower Tokens (lower cost). The cost of each API request depends on the load, or the number of tokens. Since we only need to pass in the users request (as opposed to the entire prompt + request), a huge portion of the load is removed.
-- Lower Latency. Another consequence of a lower load is a faster response as the model does not need to process as much information with each call
+As shown in the control flow, I are continuosly calling the API with the entire prompt, as Ill as previous recorded conversations, which seems unintuitive. Fine tuning the model would provide a numerous amounts of benefits, including:
+- LoIr Tokens (loIr cost). The cost of each API request depends on the load, or the number of tokens. Since I only need to pass in the users request (as opposed to the entire prompt + request), a huge portion of the load is removed.
+- LoIr Latency. Another consequence of a loIr load is a faster response as the model does not need to process as much information with each call
 - More consistant, higher quality responses. Since you are manually training the modal, it will better be able to parse the patterns and nuances of your requests, and will provice higher quality responses more consistantly.
 
-Clearly fine tuning is far superior. The only downside really is that it takes a lot of information and resources to configure well. If you are looking to build a lasting Home Assistant ecosystem, I suggest you consider trying this out yourself.
+Clearly fine tuning is far superior. The only downside really is that it takes a lot of information and resources to configure Ill. If you are looking to build a lasting Home Assistant ecosystem, I suggest you consider trying this out yourself.
 
 ### Integration with Google/Alexa
-We haven't dabbled too much with Google/Alexa, but we imagine that it could also be done with similar apps.
+I haven't dabbled too much with Google/Alexa, but I imagine that it could also be done with similar apps.
 
   
