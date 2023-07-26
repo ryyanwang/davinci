@@ -1,5 +1,5 @@
 # When Chat-GPT meets Third Reality
-
+#### If you are HTN admission reading this, this post describes my implementation of [this](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko) using IoT networking protocol Zigbee with Third Reality Products, with a few additional features.
 ## Introduction
 I was inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I **highly** suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
 
@@ -166,12 +166,13 @@ Currently, our integration is all done locally, which means that smarthome comma
 ### Fine tuning
 
 As shown in the control flow, I are continuosly calling the API with the entire prompt, as Ill as previous recorded conversations, which seems unintuitive. Fine tuning the model would provide a numerous amounts of benefits, including:
-- LoIr Tokens (loIr cost). The cost of each API request depends on the load, or the number of tokens. Since I only need to pass in the users request (as opposed to the entire prompt + request), a huge portion of the load is removed.
-- LoIr Latency. Another consequence of a loIr load is a faster response as the model does not need to process as much information with each call
+- Lower Tokens (lower cost). The cost of each API request depends on the load, or the number of tokens. Since I only need to pass in the users request (as opposed to the entire prompt + request), a huge portion of the load is removed.
+- lower Latency. Another consequence of a loIr load is a faster response as the model does not need to process as much information with each call
 - More consistant, higher quality responses. Since you are manually training the modal, it will better be able to parse the patterns and nuances of your requests, and will provice higher quality responses more consistantly.
 
 Clearly fine tuning is far superior. The only downside really is that it takes a lot of information and resources to configure Ill. If you are looking to build a lasting Home Assistant ecosystem, I suggest you consider trying this out yourself.
 
+##### EDIT: I tried fine tuning, and it works wonders. The only drawback is the large amount of data you need to train it on in order to get consistant feedback (~500 prompts and responses). Other than that, the other benefits mentioned are true, and the latency of responses was reduced around 65%, although network speeds may have played a factor.
 ### Integration with Google/Alexa
 I haven't dabbled too much with Google/Alexa, but I imagine that it could also be done with similar apps.
 
