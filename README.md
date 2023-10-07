@@ -1,5 +1,5 @@
 # When Chat-GPT meets Third Reality
-#### If you are HTN admission reading this, this post describes my implementation of [this](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko) using IoT networking protocol Zigbee with Third Reality Products, with a few additional features.
+
 ## Introduction
 I was inspired by Mate Marschalko's demo using OpenAI models to create a more sophisticated and JARVIS-esque home assistant. I **highly** suggest you go ahead and read (or at least gloss over) his [blogpost](https://matemarschalko.medium.com/chatgpt-in-an-ios-shortcut-worlds-smartest-homekit-voice-assistant-9a33b780007a).  as provides a good base understanding of the logic flow of the program. You can also watch his [demo](https://www.youtube.com/watch?v=THeet9bbphw&ab_channel=MateMarschalko).
 
